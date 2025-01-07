@@ -36,12 +36,12 @@ Please provide answers to these questions using markdown notation and place them
 
 3. Please provide a link to the repository you are using for this class.
 
-    - https://github.com/AJ3904/CS283
+    https://github.com/AJ3904/CS283
 
 4. Briefly describe what you want to get out of this class.
 
-    - At this point in time, I have no idea why I am taking this course and would be more than happy to learn something new.
+    At this point in time, I have no idea why I am taking this course and would be more than happy to learn something new.
 
 5. Briefly describe any concerns you might be having with being successful in this class (if any).
 
-    - No concerns as of now.
+    No concerns as of now.
