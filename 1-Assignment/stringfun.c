@@ -29,6 +29,11 @@ int setup_buff(char *buff, char *user_str, int len){
     char* current = user_str;
     char* bufferTracker = buff;
 
+    while (*current == ' ')
+    {
+        current++;
+    }
+    
     while(*current != '\0') {
         if (length > len) {
             return -1;
@@ -50,21 +55,26 @@ int setup_buff(char *buff, char *user_str, int len){
         }
     }
 
+    if(*(bufferTracker - 1) == ' ')
+    {
+        *(bufferTracker - 1) = '.';
+    }
+
     int spaceLeft = len - length;
     while (spaceLeft > 0) {
         *bufferTracker = '.';
         bufferTracker++;
         spaceLeft--;
     }
-
     return length; //for now just so the code compiles. 
 }
 
 void print_buff(char *buff, int len){
-    printf("Buffer:  ");
+    printf("Buffer:  [");
     for (int i=0; i<len; i++){
         putchar(*(buff+i));
     }
+    printf("]");
     putchar('\n');
 }
 
@@ -146,7 +156,7 @@ int word_print (char* buff, int len, int str_len) {
                 inWord = 0;
                 printf("%d. ", wordCount);
                 print_word(wordStart, wordLength);
-                printf(" (%d)\n", wordLength);
+                printf("(%d)\n", wordLength);
                 wordLength = 0;
                 wordStart = NULL;
             }
@@ -165,9 +175,10 @@ int word_print (char* buff, int len, int str_len) {
         wordCount++;
         printf("%d. ", wordCount);
         print_word(wordStart, wordLength);
-        printf(" (%d)\n", wordLength);
+        printf("(%d)\n", wordLength);
     }
-
+    
+    printf("\nNumber of words returned: %d\n", wordCount);
     return 0;
 }
 
@@ -193,15 +204,15 @@ int find_and_replace_word(char* buff, int len, int str_len, char* target, char* 
     }
 
     int new_string_length = str_len - target_length + replacement_length;
-    if (new_string_length > len) {
-        return -2; // Addition of replacement string causes buffer overflow
-    }
+    //if (new_string_length > len) {
+        //return -2; // Addition of replacement string causes buffer overflow
+    //}
 
     target_ptr = target;
     char* start = NULL;
 
-    for (int i = 0; i < str_len; i++) {
-        if(*target_ptr == '\0' && ((*(buff + i) == ' ') || (*(buff + i) == '.'))) {
+    for (int i = 0; i <= str_len; i++) {
+        if(*target_ptr == '\0' && ((i == str_len) || ((*(buff + i) == ' ') || (*(buff + i) == '.')))) {
             start = buff + i - target_length;
             break;
         }
@@ -243,15 +254,17 @@ int find_and_replace_word(char* buff, int len, int str_len, char* target, char* 
     }
 
     //Copy from temp to main buffer
-    for(int i = 0; i < new_string_length; i++) {
-        *(buff + i) = *(temp + i);
+    for(int i = 0; i < len; i++) {
+        if(i >= new_string_length) {
+            *(buff + i) = '.';
+        }
+        else {
+            *(buff + i) = *(temp + i);
+        }
     }
 
     temp_ptr = NULL;
     free(temp);
-
-    printf("Modified String: ");
-    print_string(buff, new_string_length);
     return 0;
 }
 
@@ -332,8 +345,6 @@ int main(int argc, char *argv[]){
                 printf("Error reversing string, rc = %d", rc);
                 exit(2);
             }
-            printf("Reversed String: ");
-            print_string(buff, user_str_len);
             break;
         case 'w':
             rc = word_print(buff, BUFFER_SZ, user_str_len);  //you need to implement
