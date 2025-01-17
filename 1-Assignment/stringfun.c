@@ -60,6 +60,7 @@ int setup_buff(char *buff, char *user_str, int len){
         *(bufferTracker - 1) = '.';
     }
 
+    // Add dots to the rest of the buffer space
     int spaceLeft = len - length;
     while (spaceLeft > 0) {
         *bufferTracker = '.';
@@ -91,6 +92,7 @@ int count_words(char *buff, int len, int str_len){
         return -1;
     }
 
+    // Count number of words by looping through and checking for spaces to determine end of word
     for(int i = 0; i < str_len; i++) {
         if (*(buff + i) == ' ') {
             if(inWord) {
@@ -102,7 +104,8 @@ int count_words(char *buff, int len, int str_len){
             inWord = 1;
         }
     }
-
+    
+    // Include last word in count as space excludes last word in count
     if(inWord) {
         wordCount++;
     }
@@ -120,6 +123,7 @@ int reverse_string(char* buff, int len, int str_len){
     char* start = buff;
     char* end = buff + str_len - 1;
     
+    // Swap characters at start and end position till reaching middle to reverse string
     while (start < end) {
         char temp = *start;
         *start = *end;
@@ -128,13 +132,6 @@ int reverse_string(char* buff, int len, int str_len){
         end--;
     }
     return 0;
-}
-
-void print_string (char* buff, int str_len) {
-    for (int i = 0; i < str_len; i++) {
-        putchar(*(buff+i));
-    }
-    putchar('\n');
 }
 
 int word_print (char* buff, int len, int str_len) {
@@ -148,6 +145,7 @@ int word_print (char* buff, int len, int str_len) {
     char* wordStart = NULL;
     printf("Word Print\n----------\n");
 
+    //Loop through buffer using same logic as word count
     for(int i = 0; i < str_len; i++)
     {
         if (*(buff + i) == ' ') {
@@ -204,13 +202,11 @@ int find_and_replace_word(char* buff, int len, int str_len, char* target, char* 
     }
 
     int new_string_length = str_len - target_length + replacement_length;
-    //if (new_string_length > len) {
-        //return -2; // Addition of replacement string causes buffer overflow
-    //}
 
     target_ptr = target;
     char* start = NULL;
 
+    // Find match by looping through the buffer and the target word
     for (int i = 0; i <= str_len; i++) {
         if(*target_ptr == '\0' && ((i == str_len) || ((*(buff + i) == ' ') || (*(buff + i) == '.')))) {
             start = buff + i - target_length;
