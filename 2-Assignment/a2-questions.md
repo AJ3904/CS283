@@ -39,7 +39,7 @@ Please answer the following questions and submit in your repo for the second ass
     ```
     Can you think of any reason why the above implementation would be a **very bad idea** using the C programming language?  Specifically, address why the above code introduces a subtle bug that could be hard to identify at runtime? 
 
-    > **ANSWER:** This implementation would be a very bad idea using the C programming language, because it returns a pointer to an out of scope variable. After the function executes, the variable student goes out of scope and the memory alloted to it is reclaimed by the system. The pointer, however, still points to this location in memory which might lead to unpredictable code behavior or crashes during runtime.
+    > **ANSWER:** This implementation would be a very bad idea using the C programming language, because it returns a pointer to an out of scope variable. After the function executes, the variable student goes out of scope and the memory allocated to it is reclaimed by the system. The pointer, however, still points to this location in memory which might lead to unpredictable code behavior or crashes during runtime.
 
 3. Another way the `get_student(...)` function could be implemented is as follows:
 
