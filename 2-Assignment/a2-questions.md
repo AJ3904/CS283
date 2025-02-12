@@ -5,7 +5,7 @@ Please answer the following questions and submit in your repo for the second ass
 
 1. In this assignment I asked you provide an implementation for the `get_student(...)` function because I think it improves the overall design of the database application.   After you implemented your solution do you agree that externalizing `get_student(...)` into it's own function is a good design strategy?  Briefly describe why or why not.
 
-    > **Answer**:  I think it is a good strategy because some of the other methods we need to implement such as add and delete make use of the get_student function. Not having an external function, would result in duplicate code in the two functions, which will make maintenance much more difficult as the database applicationg grows in size.
+    > **Answer**:  I think it is a good strategy because some of the other methods we need to implement such as add and delete make use of the get_student function. Not having an external function, would result in duplicate code in the two functions, which will make maintenance much more difficult as the database application grows in size.
 
 2. Another interesting aspect of the `get_student(...)` function is how its function prototype requires the caller to provide the storage for the `student_t` structure:
 
@@ -39,7 +39,7 @@ Please answer the following questions and submit in your repo for the second ass
     ```
     Can you think of any reason why the above implementation would be a **very bad idea** using the C programming language?  Specifically, address why the above code introduces a subtle bug that could be hard to identify at runtime? 
 
-    > **ANSWER:** This implementation would be a very bad idea using the C programming language, because it returns a pointer to an out of scope variable. After the function executes, the variable student goes out of scope and the memory alloted to it is reclaimed by the system. The pointer, however, still points to this location in memory which might lead to unpredictable code behavior or crashes during runtime.
+    > **ANSWER:** This implementation would be a very bad idea using the C programming language, because it returns a pointer to an out of scope variable. After the function executes, the variable student goes out of scope and the memory allocated to it is reclaimed by the system. The pointer, however, still points to this location in memory which might lead to unpredictable code behavior or crashes during runtime.
 
 3. Another way the `get_student(...)` function could be implemented is as follows:
 
