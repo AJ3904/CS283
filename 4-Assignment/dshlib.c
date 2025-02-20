@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -111,10 +112,35 @@ void parse_argument(char* args, char* cmd[], int* rc, int* arg_count)
     *arg_count = count;
 }
 
+void print_error(int rc)
+{
+    if(rc != OK)
+    {
+        if(rc == ENOENT){
+            printf("Command not found in PATH\n");
+        }
+        else if(rc == EACCES){
+            printf("Permission denied\n");
+        }
+        else if(rc == EEXIST) {
+            printf("File already exists\n");
+        }
+        else if(rc == EISDIR) {
+            printf("File operation performed on a directory\n");
+        }
+        else if(rc == EBADF) {
+            printf("Bad file descriptor\n");
+        }
+        else {
+            printf("Exited with error code: %d\n", rc);
+        }
+    }
+}
+
 int exec_local_cmd_loop()
 {
     char *cmd_buff = malloc(ARG_MAX);
-    int rc = 0;
+    int rc = OK;
     char* cmd[CMD_ARGV_MAX];
     int arg_count = 1;
 
@@ -168,18 +194,20 @@ int exec_local_cmd_loop()
 
         // Check if args exceed maximum arg size
         if(strlen(args) > ARG_MAX) {
-            rc = ERR_CMD_OR_ARGS_TOO_BIG;
-            break;
+            return ERR_CMD_OR_ARGS_TOO_BIG;
         }
 
         // Store command and args to list
         cmd[0] = token;
         parse_argument(args, cmd, &rc, &arg_count);
+        if(rc == ERR_CMD_ARGS_BAD) {
+            return rc;
+        }
 
         // Custom exit
         if(strcmp(cmd[0], EXIT_CMD) == 0)
         {
-            exit(0);
+            return rc;
         }
         // Dragon
         else if(strcmp(cmd[0], "dragon") == 0)
@@ -193,27 +221,32 @@ int exec_local_cmd_loop()
                 chdir(cmd[1]);
             }
         }
+        else if((strcmp(cmd[0], "rc") == 0))
+        {
+            printf("%d\n", rc);
+        }
         // Fork and exec other commands
         else
         {
             pid_t p = fork();
             if(p < 0) {
                 rc = ERR_EXEC_CMD;
+                return rc;
             }
-            else if (p > 0) {
-                wait(NULL);
-            }
-            else {
+            else if (p == 0) {
                 execvp(cmd[0], cmd);
-                int status;
-                waitpid(p, &status, 0);
-                rc = WEXITSTATUS(status);
+                exit(errno);
             }
+            int status;
+            wait(&status);
+            rc = WEXITSTATUS(status);
+            print_error(rc);
         }
 
         cmd_count++;
         token = strtok(NULL, PIPE_STRING);
     }
     }
-    return OK;
+    free(cmd_buff);
+    return rc;
 }
