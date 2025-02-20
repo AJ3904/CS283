@@ -221,6 +221,7 @@ int exec_local_cmd_loop()
                 chdir(cmd[1]);
             }
         }
+        // rc command
         else if((strcmp(cmd[0], "rc") == 0))
         {
             printf("%d\n", rc);
