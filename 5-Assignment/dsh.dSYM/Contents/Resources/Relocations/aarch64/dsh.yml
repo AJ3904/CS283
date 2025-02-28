@@ -1,0 +1,15 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     dsh
+relocations:
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: _print_dragon, symObjAddr: 0x0, symBinAddr: 0x100002288, symSize: 0x64 }
+  - { offset: 0x41, size: 0x8, addend: 0x0, symName: _print_dragon, symObjAddr: 0x0, symBinAddr: 0x100002288, symSize: 0x64 }
+  - { offset: 0xA3, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000022EC, symSize: 0x40 }
+  - { offset: 0xBE, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000022EC, symSize: 0x40 }
+  - { offset: 0x113, size: 0x8, addend: 0x0, symName: _parse_argument, symObjAddr: 0x0, symBinAddr: 0x10000232C, symSize: 0x270 }
+  - { offset: 0x135, size: 0x8, addend: 0x0, symName: _parse_argument, symObjAddr: 0x0, symBinAddr: 0x10000232C, symSize: 0x270 }
+  - { offset: 0x1B1, size: 0x8, addend: 0x0, symName: _build_cmd_list, symObjAddr: 0x270, symBinAddr: 0x10000259C, symSize: 0x270 }
+  - { offset: 0x249, size: 0x8, addend: 0x0, symName: _exec_command, symObjAddr: 0x4E0, symBinAddr: 0x10000280C, symSize: 0xA0 }
+  - { offset: 0x28D, size: 0x8, addend: 0x0, symName: _execute_pipeline, symObjAddr: 0x580, symBinAddr: 0x1000028AC, symSize: 0x378 }
+  - { offset: 0x397, size: 0x8, addend: 0x0, symName: _exec_local_cmd_loop, symObjAddr: 0x8F8, symBinAddr: 0x100002C24, symSize: 0x2E8 }
+...
